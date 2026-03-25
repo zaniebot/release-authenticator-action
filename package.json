@@ -1,0 +1,8 @@
+{
+  "name": "release-authenticator-action",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "check": "node --check index.js && node --check post.js"
+  }
+}

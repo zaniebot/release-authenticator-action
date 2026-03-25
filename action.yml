@@ -1,0 +1,33 @@
+name: "Exchange GitHub OIDC for App Token"
+description: "Fetch a GitHub Actions OIDC token and exchange it for a short-lived GitHub App installation token"
+author: "astral"
+branding:
+  icon: "shield"
+  color: "gray-dark"
+inputs:
+  url:
+    description: "Full exchange endpoint URL, for example https://example.workers.dev/exchange"
+    required: true
+  audience:
+    description: "OIDC audience to request. Defaults to the URL origin."
+    required: false
+  expires-in:
+    description: "Token lifetime in minutes (10–60, default 60)"
+    required: false
+  skip-token-revoke:
+    description: "If true, skip revoking the installation token in the post step"
+    required: false
+    default: "false"
+outputs:
+  token:
+    description: "GitHub App installation token"
+  expires-at:
+    description: "Installation token expiration timestamp"
+  repository:
+    description: "Repository returned by the exchange service"
+  ref:
+    description: "Ref returned by the exchange service"
+runs:
+  using: "node24"
+  main: "index.js"
+  post: "post.js"
