@@ -57,10 +57,6 @@ function info(message) {
   console.log(message);
 }
 
-function warning(message) {
-  console.log(`::warning::${message}`);
-}
-
 function setFailed(message) {
   console.log(`::error::${message}`);
   process.exit(1);
@@ -83,10 +79,6 @@ function setOutput(name, value) {
 
 function saveState(name, value) {
   appendEnvFile(process.env.GITHUB_STATE, name, value);
-}
-
-function getState(name) {
-  return process.env[`STATE_${name}`] || "";
 }
 
 async function sleep(ms) {
@@ -175,9 +167,6 @@ async function run() {
     }
 
     info(`Exchanging OIDC token with ${url}`);
-    // Do not retry this POST: each successful exchange mints a fresh
-    // installation token, so retrying after a lost response can leave an
-    // extra token alive until expiry.
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -209,16 +198,21 @@ async function run() {
     info(`Received installation token (sha256: ${hashToken(body.token)})`);
 
     setOutput("token", body.token);
-    if (typeof body.expires_at === "string")
+    if (typeof body.expires_at === "string") {
       setOutput("expires-at", body.expires_at);
-    if (typeof body.repository === "string")
+    }
+    if (typeof body.repository === "string") {
       setOutput("repository", body.repository);
-    if (typeof body.ref === "string") setOutput("ref", body.ref);
+    }
+    if (typeof body.ref === "string") {
+      setOutput("ref", body.ref);
+    }
 
     if (!skipTokenRevoke) {
       saveState("token", body.token);
-      if (typeof body.expires_at === "string")
+      if (typeof body.expires_at === "string") {
         saveState("expiresAt", body.expires_at);
+      }
     }
   } catch (error) {
     setFailed(error instanceof Error ? error.message : String(error));
@@ -233,6 +227,5 @@ module.exports = {
   ensureNativeProxySupport,
   getInput,
   getBooleanInput,
-  getState,
   getAudience,
 };

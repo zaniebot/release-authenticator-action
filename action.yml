@@ -1,12 +1,12 @@
 name: "Exchange GitHub OIDC for App Token"
-description: "Fetch a GitHub Actions OIDC token and exchange it for a short-lived GitHub App installation token"
+description: "Fetch a GitHub Actions OIDC token and exchange it through ost-simple-sts for a short-lived GitHub App installation token"
 author: "astral"
 branding:
   icon: "shield"
   color: "gray-dark"
 inputs:
   url:
-    description: "Full exchange endpoint URL, for example https://example.workers.dev/exchange"
+    description: "Full exchange endpoint URL, for example https://example.execute-api.us-east-1.amazonaws.com/exchange"
     required: true
   audience:
     description: "OIDC audience to request. Defaults to the URL origin."

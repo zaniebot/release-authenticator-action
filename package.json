@@ -1,5 +1,5 @@
 {
-  "name": "release-authenticator-action",
+  "name": "ost-simple-sts-action",
   "version": "0.1.0",
   "private": true,
   "scripts": {
